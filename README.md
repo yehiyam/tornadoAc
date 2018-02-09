@@ -1,45 +1,45 @@
-## Reverse engineering of Tornado air conditioner remote control
+# Reverse engineering of Tornado air conditioner remote control
 
-# IR Pulses
+## IR Pulses
 Each bit is send with a mark (transmition) and space (not transmiting)
 The mark is always the same length (540us). The space is short for 0 and long for 1
 The actual data is surrounded with a prefix and postfix.
 
-preamble (prefix): mark 6150u space 7300u
-ends with (postfix): mark 540, space 7400, mark 540
+preamble (prefix): mark 6150u space 7300u  
+ends with (postfix): mark 540, space 7400, mark 540  
 
 mark length: 540
 space length: short: 540, long 1620
 
 each byte is sent twice. all of the bits are flipped between them.
 
-# temperature:
-bits 72-76 reverse order 0-16 => 16-32 (temp-16)
-bits 64-68 inverse of above (bits flipped)
-if temp is increasing, bit 32 is high, bit 40 is low
-if temp is decreasing, bit 32 is low, bit 40 is high
+## temperature:
+bits 72-76 reverse order 0-16 => 16-32 (temp-16)  
+bits 64-68 inverse of above (bits flipped)  
+if temp is increasing, bit 32 is high, bit 40 is low  
+if temp is decreasing, bit 32 is low, bit 40 is high  
 
-# power:
-to change power bit 33 high, bit 41 low
-on: bit 49 is low bit 57 is high
-off: bit 49 is high bit 57 is low
+## power:
+to change power bit 33 high, bit 41 low  
+on: bit 49 is low bit 57 is high  
+off: bit 49 is high bit 57 is low  
 
-# mode:
-bits 77-79 reverse order 0-4 (triangle, cool, drops, waves, heat)
-bits 69-71 inverse of above (bits flipped)
+## mode:
+bits 77-79 reverse order 0-4 (triangle, cool, drops, waves, heat)  
+bits 69-71 inverse of above (bits flipped)  
 
-# fan:
-bits 61-62 reverse order 0-3 (auto, high, mid, low)
-bits 53-54 inverse of above (bits flipped)
-to change fan bit 42 high, bit 34 low
+## fan:
+bits 61-62 reverse order 0-3 (auto, high, mid, low)  
+bits 53-54 inverse of above (bits flipped)  
+to change fan bit 42 high, bit 34 low  
 
 
 
-    0        1        2        3        4        5        6        7        8        9       10        11
+    0        1        2        3        4        5        6        7        8        9       10        11  
            1          2          3           4          5          6          7           8          9     
-01234567 89012345 67890123 45678901 23456789 01234567 89012345 67890123 45678901 23456789 01234567 89012345
-11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 01011110 10100001 01010100 10101011  21
-11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 10011110 01100001 01010100 10101011  22
+01234567 89012345 67890123 45678901 23456789 01234567 89012345 67890123 45678901 23456789 01234567 89012345  
+11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 01011110 10100001 01010100 10101011  21  
+11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 10011110 01100001 01010100 10101011  22  
 11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 00011110 11100001 01010100 10101011  23
 11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 11101110 00010001 01010100 10101011  24
 11111111 00000000 11111111 00000000 10111111 01000000 10101111 01010000 01101110 10010001 01010100 10101011  25

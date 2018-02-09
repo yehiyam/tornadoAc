@@ -1,33 +1,3 @@
-preamble: mark 6150u space 7300u
-mark length: 540
-ends with: mark 540, space 7400, mark 540
-
-space length: short: 540, long 1620
-
-each byte is sent twice. all of the bits are flipped between them.
-
-temperature:
-bits 72-76 reverse order 0-16 => 16-32 (temp-16)
-bits 64-68 inverse of above (bits flipped)
-if temp is increasing, bit 32 is high, bit 40 is low
-if temp is decreasing, bit 32 is low, bit 40 is high
-
-power:
-to change power bit 33 high, bit 41 low
-on: bit 49 is low bit 57 is high
-off: bit 49 is high bit 57 is low
-
-mode:
-bits 77-79 reverse order 0-4 (triangle, cool, drops, waves, heat)
-bits 69-71 inverse of above (bits flipped)
-
-fan:
-bits 61-62 reverse order 0-3 (auto, high, mid, low)
-bits 53-54 inverse of above (bits flipped)
-to change fan bit 42 high, bit 34 low
-
-
-
     0        1        2        3        4        5        6        7        8        9       10        11
            1          2          3           4          5          6          7           8          9     
 01234567 89012345 67890123 45678901 23456789 01234567 89012345 67890123 45678901 23456789 01234567 89012345
